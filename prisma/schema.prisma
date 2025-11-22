@@ -1,0 +1,49 @@
+// backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  title       String
+  brand       String   // Villeroy & Boch, Lenox...
+  category    String   // Тарелки, Чайные пары...
+  priceKzt    Decimal  @db.Decimal(10, 2)
+  priceRub    Decimal  @db.Decimal(10, 2)
+  description String?
+  imageUrl    String?  // Ссылка на фото
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model News {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String   
+  date        String   
+  description String?  @db.Text 
+  content     String?  @db.Text 
+  imageUrl    String?
+  status      String   @default("published")
+  createdAt   DateTime @default(now())
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  title       String
+  date        String   
+  time        String?  
+  priceKzt    Decimal  @db.Decimal(10, 2)
+  priceRub    Decimal? @db.Decimal(10, 2) 
+  description String?  @db.Text
+  imageUrl    String?
+  status      String   @default("upcoming")
+  createdAt   DateTime @default(now())
+}
